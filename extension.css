@@ -1,0 +1,9 @@
+.displaynone{
+  display: none;
+}
+.logout {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+}

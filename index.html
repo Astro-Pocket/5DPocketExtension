@@ -4,13 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>5DPocket</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="extension.css">
 </head>
 <body>
-  <form action="">
-    帳號:<input type="text" id="account">
-    密碼:<input type="password" id="password">
-    <input type="submit" value="登入">
-  </form>
+  <div class="container" id="admin">
+      <div class="row">
+        <form action="">
+          帳號:<input type="text" class="form-control-custom input" id="account">
+          密碼:<input type="password" class="form-control-custom input" id="password">
+          <input type="submit" class="btn btn-embossed btn-primary" value="登入">
+        </form>
+      </div>
+  </div>
+  <div class="container displaynone" id="frame">
+      <div class="row">
+        <button type="button" class="btn-dark logout" id="logout">登出</button>
+      </div>
+  </div>
   <script type="text/javascript" src="index.js"></script>
 </body>
 </html>
