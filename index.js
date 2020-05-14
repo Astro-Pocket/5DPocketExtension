@@ -22,32 +22,38 @@ function getLoginFormValue(){
 //修改fetch預設方法
 function postData(url, data){
   return fetch (url, {
+    body: JSON.stringify(data),
     cache: 'no-cache',
     method: 'POST',
     redirect: 'follow',
     referrer: 'no-referrer',
+    mode: 'cors',
+    headers: {
+      // 'user-agent': 'Mozilla/4.0 MDN Example',
+      'content-type': 'application/json'
+    },
   })
   .then(res => res.json()) //輸出成json
 }
 //進行登入
 form.addEventListener('submit', function LoginJson(e){
   e.preventDefault();
-  postData('localhost:3000/api/v1/login', getLoginFormValue())
+  postData('http://127.0.0.1:3000/api/v1/login', getLoginFormValue())
   .then(
     function(data){
       localStorage.setItem('key', data['auth_token']);
       if (data['message'] === "ok"){
         ToggleLoginUI(true);
       }
-      alert('觀迎登入5DPocket');
+      // alert('觀迎登入5DPocket');
     }
   )
   .catch( error => {
-    alert('帳號密碼錯誤!');
+    // alert('帳號密碼錯誤!');
   })
 })
 
-//ToggleLoginUI
+//ToggleLoginUI，只要登入成功移除登入畫面、新增畫面，登出成功增加登入畫面、移除畫面
 function ToggleLoginUI(isLogin) {
   let admin = document.getElementById('admin');
   let frame = document.getElementById('frame');
@@ -74,7 +80,7 @@ function getLogoutFormValues(){
 //LogoutTokenDataApi
 function logoutjson(e){
   e.preventDefault();
-  postData('localhost:3000/api/v2/login',getLogoutFormValues())
+  postData('http://127.0.0.1:3000/api/v1/logout',getLogoutFormValues())
     .then(
       function(data){
         console.log(data);
