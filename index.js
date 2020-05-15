@@ -29,7 +29,7 @@ function postData(url, data){
     referrer: 'no-referrer',
     mode: 'cors',
     headers: {
-      // 'user-agent': 'Mozilla/4.0 MDN Example',
+      'user-agent': 'Mozilla/4.0 MDN Example',
       'content-type': 'application/json'
     },
   })
@@ -93,3 +93,5 @@ function logoutjson(e){
       }
     )
 }
+
+// 
