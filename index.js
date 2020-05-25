@@ -1,4 +1,3 @@
-console.log('ready')
 const form = document.querySelector('form')
 const account = document.querySelector('#account')
 const password = document.querySelector('#password')
@@ -31,7 +30,7 @@ function postData(url, data){
     headers: {
       'user-agent': 'Mozilla/4.0 MDN Example',
       'content-type': 'application/json'
-    },
+    }
   })
   .then(res => res.json()) //輸出成json
 }
@@ -93,5 +92,22 @@ function logoutjson(e){
       }
     )
 }
-
-// 
+// 進行抓網址的動作
+document.addEventListener('DOMContentLoaded', () => {
+  chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, tabs => {
+    const url = tabs[0].url
+    const key = localStorage.getItem('key')
+    
+    // 取得url&key的值
+    function geturl() {
+      return {url: url, key: key}
+    }
+    console.log(geturl())
+    postData('http:127.0.0.1:3000/api/v1/save', geturl())
+    .then(
+      function(data) {
+        console.log(data['message']);
+      }
+    )
+  })
+})
