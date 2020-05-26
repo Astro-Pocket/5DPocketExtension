@@ -106,7 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
     postData('http:127.0.0.1:3000/api/v1/save', geturl())
     .then(
       function(data) {
-        console.log(data['message']);
+        document.querySelector('.flash').innerHTML = data['message']
+      }
+    )
+    .catch(
+      error => {
+        console.log(error)
       }
     )
   })
