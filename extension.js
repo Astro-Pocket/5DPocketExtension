@@ -123,4 +123,9 @@ save.addEventListener("click", () => {
 $(".js-tag-select").select2({
   multiple: true,
   tags: true,
+  placeholder: "Add Tags",
+  language: {
+    noResults: function (params) {
+    return "沒有標籤";
+  }}
 });
