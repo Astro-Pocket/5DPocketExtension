@@ -46,7 +46,6 @@ form.addEventListener("submit", function LoginJson(e) {
       if (data["message"] === "ok") {
         ToggleLoginUI(true);
       }
-      
       // alert('觀迎登入5DPocket');
     })
     .catch((error) => {
@@ -92,20 +91,25 @@ function logoutjson(e) {
 // 進行儲存文章以及儲存tags的動作
 save.addEventListener("click", () => {
   const spinner = document.querySelector(".spinner-border");
+  const save = document.getElementById('save')
   spinner.classList.remove("displaynone");
   document.querySelector(".flash").classList.remove("displaynone");
+  save.disabled=true
+  save.innerHTML = '儲存中'
   chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
     const url = tabs[0].url;
     const key = localStorage.getItem("key");
+    const tags = document.querySelector('#settags').value
     // 取得url&key的值
     function geturl() {
-      return { url: url, key: key };
+      return { url: url, key: key, tags: tags};
     }
-    console.log(geturl());
     postData("http:127.0.0.1:3000/api/v1/save", geturl())
       .then((data) => {
         document.querySelector(".flash").innerHTML = data["message"];
         spinner.classList.add("displaynone");
+        save.disabled=false
+        save.innerHTML = '儲存'
         setTimeout(function () {
           document.querySelector(".flash").classList.add("displaynone");
         }, 3000);
@@ -119,5 +123,4 @@ save.addEventListener("click", () => {
 $(".js-tag-select").select2({
   multiple: true,
   tags: true,
-  placeholder: 'Select an option'
 });

@@ -3,7 +3,6 @@
 }
 body {
   width: 275px;
-  height: 150px;
 }
 .logo{
   width: 100%;
@@ -41,4 +40,21 @@ form {
   box-shadow: none;
   -webkit-transition: border 0.25s linear, color 0.25s linear, background-color 0.25s linear;
   transition: border 0.25s linear, color 0.25s linear, background-color 0.25s linear;
+}
+.js-tag-select {
+  width: 150px;
+}
+.save {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+.spinner-border {
+  text-align: center;
+}
+.logout {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #36b9cc;
+  border: 0;
 }
