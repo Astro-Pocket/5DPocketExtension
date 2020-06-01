@@ -1,3 +1,17 @@
+//資料庫管理中心
+window.PocketData = {
+  url: null,
+  key: null,
+  isLogin: false,
+  urls: {
+    saveArticle: '',
+    updateTags: '',
+    login: 'login',
+    logout: 'logout'
+  },
+  host: 'http://127.0.0.1:3000/api/v1/'
+}
+
 // 開網頁focus到帳號輸入框上
 document.querySelector("#account").focus();
 
@@ -38,7 +52,7 @@ function postData(url, data) {
 //進行登入
 document.querySelector("form").addEventListener("submit", function LoginJson(e) {
   e.preventDefault();
-  postData("http://127.0.0.1:3000/api/v1/login", getLoginFormValue())
+  postData(`${window.PocketData.host}${window.PocketData.urls.login}`, getLoginFormValue())
     .then(function (data) {
       localStorage.setItem("key", data["auth_token"]);
       if (data["message"] === "ok") {
@@ -77,7 +91,7 @@ function getLogoutFormValues() {
 //LogoutTokenDataApi
 function logoutjson(e) {
   e.preventDefault();
-  postData("http://127.0.0.1:3000/api/v1/logout", getLogoutFormValues())
+  postData(`${window.PocketData.host}${window.PocketData.urls.logout}`, getLogoutFormValues())
     .then(function (data) {
       console.log(data);
       ToggleLoginUI(false);
@@ -120,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 // 進行儲存tags的動作
-document.querySelector(".save").addEventListener("click", () => {
+document.querySelector("#save").addEventListener("click", () => {
   chrome.tabs.query({ active: true }, (tabs) => {
     const url = tabs[0].url;
     const key = localStorage.getItem("key");
