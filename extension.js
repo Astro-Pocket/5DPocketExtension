@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 // 進行儲存tags的動作
-document.querySelector(".save").addEventListener("submit", () => {
+document.querySelector(".save").addEventListener("click", () => {
   chrome.tabs.query({ active: true }, (tabs) => {
     const url = tabs[0].url;
     const key = localStorage.getItem("key");
@@ -137,6 +137,6 @@ document.querySelector(".save").addEventListener("submit", () => {
 });
 
 //進行搜尋是否有沒有這篇文章的動作
-document.addEventListener("DOMContentLoaded", () => {
+// document.addEventListener("DOMContentLoaded", () => {
   
-})
+// })
