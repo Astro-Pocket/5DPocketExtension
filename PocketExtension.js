@@ -1,3 +1,5 @@
+//進行重構中請稍後觀看
+
 //修改fetch預設方法
 function postData(url, data) {
   return fetch(url, {
