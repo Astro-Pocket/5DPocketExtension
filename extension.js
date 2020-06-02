@@ -13,6 +13,8 @@ window.PocketData = {
   },
   host: 'http://127.0.0.1:3000/api/v1/',
   tags: null,
+  email: null,
+  password: null,
 }
 //html內容
 window.content = {
@@ -20,10 +22,11 @@ window.content = {
   save: document.querySelector("#save"),
   spinner: document.querySelector(".spinner-border"),
   saving: document.querySelector(".saving"),
-  admin: document.getElementById("admin"),
-  frame: document.getElementById("frame"),
+  admin: document.querySelector("#admin"),
+  frame: document.querySelector("#frame"),
   account: document.querySelector("#account"),
-  password: document.querySelector("#password")
+  password: document.querySelector("#password"),
+  logout: document.querySelector(".logout")
 }
 
 //初始化 localStorage 如果登入就不要初始化，有登出就初始化
@@ -39,11 +42,6 @@ function initialize() {
 }
 initialize();
 
-//抓帳號密碼的值
-function getLoginFormValue() {
-  return { email: window.content.account.value, password: window.content.password.value };
-}
-
 //修改fetch預設方法
 function postData(url, data) {
   return fetch(url, {
@@ -57,20 +55,22 @@ function postData(url, data) {
       "user-agent": "Mozilla/4.0 MDN Example",
       "content-type": "application/json",
     },
-  }).then((res) => res.json()); //輸出成json
+  }).then( res => res.json()); //輸出成json
 }
 //進行登入
 document.querySelector("form").addEventListener("submit", function LoginJson(e) {
   e.preventDefault();
-  postData(`${window.PocketData.host}${window.PocketData.urls.login}`, getLoginFormValue())
-    .then(function (data) {
+  window.PocketData.email = window.content.account.value;
+  window.PocketData.password = window.content.password.value;
+  postData(`${window.PocketData.host}${window.PocketData.urls.login}`, window.PocketData )
+    .then( data => {
       localStorage.setItem("key", data["auth_token"]);
       if (data["message"] === "ok") {
         ToggleLoginUI(true);
       }
       // alert('觀迎登入5DPocket');
     })
-    .catch((error) => {
+    .catch( error => {
       // alert('帳號密碼錯誤!');
     });
 });
@@ -80,7 +80,6 @@ function ToggleLoginUI(isLogin) {
   if (isLogin) {
     window.content.admin.classList.add("displaynone");
     window.content.frame.classList.remove("displaynone");
-    // 使用select2
     $(".js-tag-select").select2({
       multiple: true,
       tags: true,
@@ -90,15 +89,13 @@ function ToggleLoginUI(isLogin) {
     localStorage.clear();
     window.content.admin.classList.remove("displaynone");
     window.content.frame.classList.add("displaynone");
-    // 開網頁focus到帳號輸入框上
-    document.querySelector("#account").focus();
+    window.content.account.focus();
   }
 }
 //登出功能
-let logout = document.getElementById("logout");
-logout.addEventListener("click", (e) => {
+window.content.logout.addEventListener("click", e => {
   logoutjson(e);
-});
+})
 //LogoutTokenData
 function getLogoutFormValues() {
   var logouttoken = localStorage.getItem("key");
@@ -108,18 +105,18 @@ function getLogoutFormValues() {
 function logoutjson(e) {
   e.preventDefault();
   postData(`${window.PocketData.host}${window.PocketData.urls.logout}`, getLogoutFormValues())
-    .then(function (data) {
+    .then( data => {
       console.log(data);
       ToggleLoginUI(false);
     }) // JSON from `resp.json()` call
-    .catch((error) => {
+    .catch( error => {
       console.log(error);
     });
 }
 // 進行儲存文章
 document.addEventListener("DOMContentLoaded", () => {
   window.content.spinner.classList.remove("displaynone");
-  chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+  chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
     window.PocketData.url = tabs[0].url;
     window.PocketData.key = localStorage.getItem("key");
     postData(`${window.PocketData.host}${window.PocketData.urls.save_article}`, window.PocketData)
@@ -128,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.content.spinner.classList.add("displaynone");
         window.content.saving.classList.add("displaynone");
         document.querySelector(".save").classList.remove("displaynone");
-        setTimeout(function () {
+        setTimeout( () => {
           window.content.flash.classList.add("displaynone");
         }, 3000);
       })
@@ -138,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 // 進行tags的動作
-chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
   window.PocketData.url = tabs[0].url;
   window.PocketData.key = localStorage.getItem("key");
   window.content.save.addEventListener("click", () => {
