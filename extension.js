@@ -146,6 +146,9 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
     .then((data) => {
       window.content.flash.classList.remove("displaynone");
       window.content.flash.innerHTML = data["message"];
+      setTimeout( () => {
+        window.content.flash.classList.add("displaynone");
+      }, 3000);
     });
   });
 });
