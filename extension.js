@@ -26,7 +26,8 @@ window.content = {
   frame: document.querySelector("#frame"),
   account: document.querySelector("#account"),
   password: document.querySelector("#password"),
-  logout: document.querySelector(".logout")
+  logout: document.querySelector(".logout"),
+  form: document.querySelector("form")
 }
 
 //初始化 localStorage 如果登入就不要初始化，有登出就初始化
@@ -58,7 +59,7 @@ function postData(url, data) {
   }).then( res => res.json()); //輸出成json
 }
 //進行登入
-document.querySelector("form").addEventListener("submit", function LoginJson(e) {
+window.content.form.addEventListener("submit", function LoginJson(e) {
   e.preventDefault();
   window.PocketData.email = window.content.account.value;
   window.PocketData.password = window.content.password.value;
