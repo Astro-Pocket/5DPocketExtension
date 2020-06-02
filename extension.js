@@ -5,6 +5,8 @@ window.PocketData = {
   isLogin: false,
   urls: {
     save: 'save_article_tags',
+    save_article:'save_article',
+    save_tags:'save_tags',
     updateTags: '',
     login: 'login',
     logout: 'logout'
@@ -119,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function geturl() {
       return { url: url, key: key };
     }
-    postData(`${window.PocketData.host}${window.PocketData.urls.saveArticle}`, geturl())
+    postData(`${window.PocketData.host}${window.PocketData.urls.save_article}`, geturl())
       .then((data) => {
         document.querySelector(".flash").innerHTML = data["message"];
         spinner.classList.add("displaynone");
@@ -144,7 +146,7 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
       return { url: url, key: key, tags: tags };
     }
     const tags = $("#settags").val();
-    postData(`${window.PocketData.host}${window.PocketData.urls.savetags}`, getdata()).then((data) => {
+    postData(`${window.PocketData.host}${window.PocketData.urls.save_tags}`, getdata()).then((data) => {
       document.querySelector(".flash").classList.remove("displaynone");
       document.querySelector(".flash").innerHTML = data["message"];
     });
