@@ -30,7 +30,7 @@ window.content = {
   form: document.querySelector("form")
 }
 
-//key是空的就變成登入畫面，有key就出現畫面並進行儲存文章的動作
+//沒登入的時候顯示帳號密碼的地方，登入狀態就顯示儲存tag的畫面
 function initialize() {
   if (
     localStorage.getItem("key") === "undefined" ||
@@ -39,7 +39,6 @@ function initialize() {
     ToggleLoginUI(false);
   } else {
     ToggleLoginUI(true);
-    SaveArticle();
   }
 }
 initialize();
@@ -87,6 +86,7 @@ function ToggleLoginUI(isLogin) {
       tags: true,
       placeholder: "Add Tags",
     });
+    SaveArticle();
   } else {
     localStorage.clear();
     window.content.admin.classList.remove("displaynone");
@@ -117,25 +117,23 @@ function logoutjson(e) {
 }
 // 進行儲存文章
 function SaveArticle() {
-  document.addEventListener("DOMContentLoaded", () => {
-    window.content.spinner.classList.remove("displaynone");
-    chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-      window.PocketData.url = tabs[0].url;
-      window.PocketData.key = localStorage.getItem("key");
-      postData(`${window.PocketData.host}${window.PocketData.urls.save_article}`, window.PocketData)
-        .then((data) => {
-          window.content.flash.innerHTML = data["message"];
-          window.content.spinner.classList.add("displaynone");
-          window.content.saving.classList.add("displaynone");
-          document.querySelector(".save").classList.remove("displaynone");
-          setTimeout( () => {
-            window.content.flash.classList.add("displaynone");
-          }, 3000);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
+  window.content.spinner.classList.remove("displaynone");
+  chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+    window.PocketData.url = tabs[0].url;
+    window.PocketData.key = localStorage.getItem("key");
+    postData(`${window.PocketData.host}${window.PocketData.urls.save_article}`, window.PocketData)
+      .then((data) => {
+        window.content.flash.innerHTML = data["message"];
+        window.content.spinner.classList.add("displaynone");
+        window.content.saving.classList.add("displaynone");
+        document.querySelector(".save").classList.remove("displaynone");
+        setTimeout( () => {
+          window.content.flash.classList.add("displaynone");
+        }, 3000);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   });
 }
 // 進行tags的動作
