@@ -1,4 +1,4 @@
-//資料庫管理中心
+//資料儲存中心
 window.PocketData = {
   url: null,
   key: null,
@@ -14,9 +14,17 @@ window.PocketData = {
   host: 'http://127.0.0.1:3000/api/v1/',
   tags: null,
 }
-
-// 開網頁focus到帳號輸入框上
-document.querySelector("#account").focus();
+//html內容
+window.content = {
+  flash: document.querySelector(".flash"),
+  save: document.querySelector("#save"),
+  spinner: document.querySelector(".spinner-border"),
+  saving: document.querySelector(".saving"),
+  admin: document.getElementById("admin"),
+  frame: document.getElementById("frame"),
+  account: document.querySelector("#account"),
+  password: document.querySelector("#password")
+}
 
 //初始化 localStorage 如果登入就不要初始化，有登出就初始化
 function initialize() {
@@ -33,10 +41,9 @@ initialize();
 
 //抓帳號密碼的值
 function getLoginFormValue() {
-  const account = document.querySelector("#account");
-  const password = document.querySelector("#password");
-  return { email: account.value, password: password.value };
+  return { email: window.content.account.value, password: window.content.password.value };
 }
+
 //修改fetch預設方法
 function postData(url, data) {
   return fetch(url, {
@@ -70,11 +77,9 @@ document.querySelector("form").addEventListener("submit", function LoginJson(e) 
 
 //ToggleLoginUI，只要登入成功移除登入畫面、新增畫面，登出成功增加登入畫面、移除畫面
 function ToggleLoginUI(isLogin) {
-  let admin = document.getElementById("admin");
-  let frame = document.getElementById("frame");
   if (isLogin) {
-    admin.classList.add("displaynone");
-    frame.classList.remove("displaynone");
+    window.content.admin.classList.add("displaynone");
+    window.content.frame.classList.remove("displaynone");
     // 使用select2
     $(".js-tag-select").select2({
       multiple: true,
@@ -83,8 +88,10 @@ function ToggleLoginUI(isLogin) {
     });
   } else {
     localStorage.clear();
-    admin.classList.remove("displaynone");
-    frame.classList.add("displaynone");
+    window.content.admin.classList.remove("displaynone");
+    window.content.frame.classList.add("displaynone");
+    // 開網頁focus到帳號輸入框上
+    document.querySelector("#account").focus();
   }
 }
 //登出功能
@@ -111,24 +118,18 @@ function logoutjson(e) {
 }
 // 進行儲存文章
 document.addEventListener("DOMContentLoaded", () => {
-  const spinner = document.querySelector(".spinner-border");
-  spinner.classList.remove("displaynone");
-  const saving = document.querySelector(".saving");
+  window.content.spinner.classList.remove("displaynone");
   chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-    const url = tabs[0].url;
-    const key = localStorage.getItem("key");
-    // 取得url&key的值
-    function geturl() {
-      return { url: url, key: key };
-    }
-    postData(`${window.PocketData.host}${window.PocketData.urls.save_article}`, geturl())
+    window.PocketData.url = tabs[0].url;
+    window.PocketData.key = localStorage.getItem("key");
+    postData(`${window.PocketData.host}${window.PocketData.urls.save_article}`, window.PocketData)
       .then((data) => {
-        document.querySelector(".flash").innerHTML = data["message"];
-        spinner.classList.add("displaynone");
-        saving.classList.add("displaynone");
+        window.content.flash.innerHTML = data["message"];
+        window.content.spinner.classList.add("displaynone");
+        window.content.saving.classList.add("displaynone");
         document.querySelector(".save").classList.remove("displaynone");
         setTimeout(function () {
-          document.querySelector(".flash").classList.add("displaynone");
+          window.content.flash.classList.add("displaynone");
         }, 3000);
       })
       .catch((error) => {
@@ -138,17 +139,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 // 進行tags的動作
 chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-  const url = tabs[0].url;
-  const key = localStorage.getItem("key");
-  document.querySelector("#save").addEventListener("click", () => {
-    //取得url&key&tag
-    function getdata() {
-      return { url: url, key: key, tags: tags };
-    }
-    const tags = $("#settags").val();
-    postData(`${window.PocketData.host}${window.PocketData.urls.save_tags}`, getdata()).then((data) => {
-      document.querySelector(".flash").classList.remove("displaynone");
-      document.querySelector(".flash").innerHTML = data["message"];
+  window.PocketData.url = tabs[0].url;
+  window.PocketData.key = localStorage.getItem("key");
+  window.content.save.addEventListener("click", () => {
+    window.PocketData.tags = $("#settags").val();
+    postData(`${window.PocketData.host}${window.PocketData.urls.save_tags}`, window.PocketData)
+    .then((data) => {
+      window.content.flash.classList.remove("displaynone");
+      window.content.flash.innerHTML = data["message"];
     });
   });
 });
