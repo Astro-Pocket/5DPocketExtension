@@ -30,7 +30,7 @@ window.content = {
   form: document.querySelector("form")
 }
 
-//初始化 localStorage 如果登入就不要初始化，有登出就初始化
+//key是空的就變成登入畫面，有key就出現畫面並進行儲存文章的動作
 function initialize() {
   if (
     localStorage.getItem("key") === "undefined" ||
@@ -39,6 +39,7 @@ function initialize() {
     ToggleLoginUI(false);
   } else {
     ToggleLoginUI(true);
+    SaveArticle();
   }
 }
 initialize();
@@ -115,26 +116,28 @@ function logoutjson(e) {
     });
 }
 // 進行儲存文章
-document.addEventListener("DOMContentLoaded", () => {
-  window.content.spinner.classList.remove("displaynone");
-  chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-    window.PocketData.url = tabs[0].url;
-    window.PocketData.key = localStorage.getItem("key");
-    postData(`${window.PocketData.host}${window.PocketData.urls.save_article}`, window.PocketData)
-      .then((data) => {
-        window.content.flash.innerHTML = data["message"];
-        window.content.spinner.classList.add("displaynone");
-        window.content.saving.classList.add("displaynone");
-        document.querySelector(".save").classList.remove("displaynone");
-        setTimeout( () => {
-          window.content.flash.classList.add("displaynone");
-        }, 3000);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+function SaveArticle() {
+  document.addEventListener("DOMContentLoaded", () => {
+    window.content.spinner.classList.remove("displaynone");
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+      window.PocketData.url = tabs[0].url;
+      window.PocketData.key = localStorage.getItem("key");
+      postData(`${window.PocketData.host}${window.PocketData.urls.save_article}`, window.PocketData)
+        .then((data) => {
+          window.content.flash.innerHTML = data["message"];
+          window.content.spinner.classList.add("displaynone");
+          window.content.saving.classList.add("displaynone");
+          document.querySelector(".save").classList.remove("displaynone");
+          setTimeout( () => {
+            window.content.flash.classList.add("displaynone");
+          }, 3000);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   });
-});
+}
 // 進行tags的動作
 chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
   window.PocketData.url = tabs[0].url;
