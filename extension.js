@@ -4,12 +4,13 @@ window.PocketData = {
   key: null,
   isLogin: false,
   urls: {
-    saveArticle: '',
+    save: 'save_article_tags',
     updateTags: '',
     login: 'login',
     logout: 'logout'
   },
-  host: 'http://127.0.0.1:3000/api/v1/'
+  host: 'http://127.0.0.1:3000/api/v1/',
+  tags: null,
 }
 
 // 開網頁focus到帳號輸入框上
@@ -72,6 +73,12 @@ function ToggleLoginUI(isLogin) {
   if (isLogin) {
     admin.classList.add("displaynone");
     frame.classList.remove("displaynone");
+    // 使用select2
+    $(".js-tag-select").select2({
+      multiple: true,
+      tags: true,
+      placeholder: "Add Tags",
+    });
   } else {
     localStorage.clear();
     admin.classList.remove("displaynone");
@@ -100,12 +107,6 @@ function logoutjson(e) {
       console.log(error);
     });
 }
-// 使用select2
-$(".js-tag-select").select2({
-  multiple: true,
-  tags: true,
-  placeholder: "Add Tags",
-});
 // 進行儲存文章
 document.addEventListener("DOMContentLoaded", () => {
   const spinner = document.querySelector(".spinner-border");
@@ -118,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function geturl() {
       return { url: url, key: key };
     }
-    postData("http:127.0.0.1:3000/api/v1/save_article", geturl())
+    postData(`${window.PocketData.host}${window.PocketData.urls.saveArticle}`, geturl())
       .then((data) => {
         document.querySelector(".flash").innerHTML = data["message"];
         spinner.classList.add("displaynone");
@@ -133,24 +134,32 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 });
-// 進行儲存tags的動作
-document.querySelector("#save").addEventListener("click", () => {
-  chrome.tabs.query({ active: true }, (tabs) => {
-    const url = tabs[0].url;
-    const key = localStorage.getItem("key");
-    const tags = $("#settags").val();
-    console.log(tags);
+// 進行tags的動作
+chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+  const url = tabs[0].url;
+  const key = localStorage.getItem("key");
+  document.querySelector("#save").addEventListener("click", () => {
     //取得url&key&tag
     function getdata() {
       return { url: url, key: key, tags: tags };
     }
-    postData("http:127.0.0.1:3000/api/v1/save_tags", getdata()).then((data) => {
+    const tags = $("#settags").val();
+    postData(`${window.PocketData.host}${window.PocketData.urls.savetags}`, getdata()).then((data) => {
+      document.querySelector(".flash").classList.remove("displaynone");
       document.querySelector(".flash").innerHTML = data["message"];
     });
   });
 });
 
-//進行搜尋是否有沒有這篇文章的動作
-// document.addEventListener("DOMContentLoaded", () => {
-  
+// // 進行儲存文章即tags的動作
+// chrome.tabs.query({ active: true,lastFocusedWindow: true}, tabs => {
+//   window.PocketData.url = tabs[0].url
+//   window.PocketData.key = localStorage.getItem('key')
+//   document.querySelector('#save').addEventListener("click", () => {
+//     window.PocketData.tags = $("#settags").val();
+//     postData(`${window.PocketData.host}${window.PocketData.urls.save_article_tags}`, window.PocketData)
+//       .then(data => {
+        
+//       })
+//   })
 // })
