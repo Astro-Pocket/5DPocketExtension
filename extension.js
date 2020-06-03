@@ -16,6 +16,7 @@ window.PocketData = {
   email: null,
   password: null,
 }
+
 //html內容
 window.content = {
   flash: document.querySelector(".flash"),
@@ -58,6 +59,7 @@ function postData(url, data) {
     },
   }).then( res => res.json()); //輸出成json
 }
+
 //進行登入
 window.content.form.addEventListener("submit", function LoginJson(e) {
   e.preventDefault();
@@ -94,15 +96,18 @@ function ToggleLoginUI(isLogin) {
     window.content.account.focus();
   }
 }
+
 //登出功能
 window.content.logout.addEventListener("click", e => {
   logoutjson(e);
 })
+
 //LogoutTokenData
 function getLogoutFormValues() {
   var logouttoken = localStorage.getItem("key");
   return { auth_token: logouttoken };
 }
+
 //LogoutTokenDataApi
 function logoutjson(e) {
   e.preventDefault();
@@ -115,6 +120,7 @@ function logoutjson(e) {
       console.log(error);
     });
 }
+
 // 進行儲存文章
 function SaveArticle() {
   window.content.spinner.classList.remove("displaynone");
@@ -136,6 +142,7 @@ function SaveArticle() {
       });
   });
 }
+
 // 進行tags的動作
 chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
   window.PocketData.url = tabs[0].url;
