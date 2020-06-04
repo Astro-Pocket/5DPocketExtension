@@ -128,7 +128,7 @@ function SaveArticle() {
     window.PocketData.url = tabs[0].url;
     window.PocketData.key = localStorage.getItem("key");
     postData(`${window.PocketData.host}${window.PocketData.urls.save_article}`, window.PocketData)
-      .then((data) => {
+      .then( data => {
         window.content.flash.innerHTML = data["message"];
         window.content.spinner.classList.add("displaynone");
         window.content.saving.classList.add("displaynone");
@@ -137,7 +137,7 @@ function SaveArticle() {
           window.content.flash.classList.add("displaynone");
         }, 3000);
       })
-      .catch((error) => {
+      .catch( error => {
         console.log(error);
       });
   });
@@ -150,7 +150,7 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
   window.content.save.addEventListener("click", () => {
     window.PocketData.tags = $("#settags").val();
     postData(`${window.PocketData.host}${window.PocketData.urls.save_tags}`, window.PocketData)
-    .then((data) => {
+    .then( data => {
       window.content.flash.classList.remove("displaynone");
       window.content.flash.innerHTML = data["message"];
       setTimeout( () => {

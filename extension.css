@@ -8,6 +8,7 @@ body {
   width: 100%;
   text-align: center;
   background-color: #36b9cc;
+  background-image: linear-gradient(180deg, #36b9cc 10%, #1cc88a 100%);
   color: white;
   padding-bottom: .25rem;
 }
@@ -63,4 +64,9 @@ form {
   display:block;
   margin-left: 15px;
   margin-bottom: .5rem;
+}
+.btn-info {
+  color: #fff;
+  background-color: #36b9cc;
+  border-color: #36b9cc;
 }

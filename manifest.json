@@ -9,7 +9,16 @@
     "default_popup": "index.html"
   },
   "permissions":[
-    "tabs"
+    "tabs",
+    "contextMenus"
   ],
+  "background":{
+    "scripts": ["event.js"],
+    "persistent": true
+  },
+  "icons": { 
+    "16": "icons/pocket.png",
+    "48": "icons/pocket48.png"
+   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net; object-src 'self'"
 }
