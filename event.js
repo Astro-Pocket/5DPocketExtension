@@ -4,7 +4,8 @@ chrome.contextMenus.create({
   "onclick": save,
   "contexts": [
     "page",
-    "selection"
+    "selection",
+    "image"
   ],
   "enabled": true
 });
@@ -36,5 +37,8 @@ function save(page){
   postData(`${window.menuData.host}${window.menuData.save}`,window.menuData)
     .then( data => {
       alert(data['message'])
+    })
+    .catch( error => {
+      alert('此文章儲存不了')
     })
 }
