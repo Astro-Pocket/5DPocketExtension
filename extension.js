@@ -159,16 +159,3 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
     });
   });
 });
-
-// // 進行儲存文章即tags的動作
-// chrome.tabs.query({ active: true,lastFocusedWindow: true}, tabs => {
-//   window.PocketData.url = tabs[0].url
-//   window.PocketData.key = localStorage.getItem('key')
-//   document.querySelector('#save').addEventListener("click", () => {
-//     window.PocketData.tags = $("#settags").val();
-//     postData(`${window.PocketData.host}${window.PocketData.urls.save_article_tags}`, window.PocketData)
-//       .then(data => {
-        
-//       })
-//   })
-// })
