@@ -11,7 +11,7 @@ window.PocketData = {
     login: 'login',
     logout: 'logout'
   },
-  host: 'https://five-dimension-pocket.herokuapp.com/api/v1/',
+  host: 'https://127.0.0.1:3000/api/v1/',
   tags: null,
   email: null,
   password: null,
