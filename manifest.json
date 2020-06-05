@@ -10,7 +10,8 @@
   },
   "permissions":[
     "tabs",
-    "contextMenus"
+    "contextMenus",
+    "activeTab"
   ],
   "background":{
     "scripts": ["event.js"],
