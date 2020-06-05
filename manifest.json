@@ -5,7 +5,7 @@
   "version": "1",
   "browser_action": {
     "default_title": "5DPocket",
-    "default_icon": "icons/pocket.png",
+    "default_icon": "icons/for_browser.png",
     "default_popup": "index.html"
   },
   "permissions":[
@@ -18,8 +18,8 @@
     "persistent": true
   },
   "icons": { 
-    "16": "icons/pocket.png",
-    "48": "icons/pocket48.png"
+    "16": "icons/for_browser.png",
+    "48": "icons/for_browser.png"
    },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net; object-src 'self'"
 }
