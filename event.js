@@ -12,7 +12,7 @@ chrome.contextMenus.create({
 window.menuData = {
   url: null,
   key: null,
-  host: 'https://127.0.0.1:3000/api/v1/',
+  host: 'http://127.0.0.1:3000/api/v1/',
   save: 'save_article'
 }
 
