@@ -13,7 +13,12 @@
     "contextMenus",
     "activeTab"
   ],
-  
+  "content_script":[
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
   "background":{
     "scripts": ["event.js"],
     "persistent": true
