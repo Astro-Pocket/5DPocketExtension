@@ -13,7 +13,7 @@
     "contextMenus",
     "activeTab"
   ],
-  "content_script":[
+  "content_scripts":[
     {
       "matches": ["<all_urls>"],
       "js": ["content.js"],
