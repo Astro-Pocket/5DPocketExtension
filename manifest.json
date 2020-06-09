@@ -27,6 +27,7 @@
   "icons": { 
     "16": "icons/for_browser.png",
     "48": "icons/for_browser.png"
-   },
+  },
+  "web_accessible_resources" : ["index.html"],
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net; object-src 'self'"
 }
