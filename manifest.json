@@ -13,6 +13,7 @@
     "contextMenus",
     "activeTab"
   ],
+  
   "background":{
     "scripts": ["event.js"],
     "persistent": true

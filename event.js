@@ -9,36 +9,20 @@ chrome.contextMenus.create({
   ],
   "enabled": true
 });
-window.menuData = {
-  url: null,
-  key: null,
-  host: 'https://five-dimension-pocket.herokuapp.com/api/v1/',
-  save: 'save_article'
+
+function save() {
+  sendMessageToContentScript({ key: 'test', payload: 'Hi, this is a message from popup.js'}, (response) => {
+    console.log('this is a message from content script', response)
+})
 }
 
-function postData(url, data) {
-  return fetch(url, {
-    body: JSON.stringify(data),
-    cache: "no-cache",
-    method: "POST",
-    redirect: "follow",
-    referrer: "no-referrer",
-    mode: "cors",
-    headers: {
-      "user-agent": "Mozilla/4.0 MDN Example",
-      "content-type": "application/json",
-    },
-  }).then( res => res.json()); //輸出成json
-}
-
-function save(page){
-  window.menuData.url = page.pageUrl
-  window.menuData.key = localStorage.getItem('key')
-  postData(`${window.menuData.host}${window.menuData.save}`,window.menuData)
-    .then( data => {
-      alert(data['message'])
-    })
-    .catch( error => {
-      alert('此文章儲存不了')
-    })
+function sendMessageToContentScript(message, callback) {
+  chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+    console.log(tabs)
+      chrome.tabs.sendMessage(tabs[0].id, message, (response) => {
+          if (callback) {
+              callback(response)
+          }
+      })
+  })
 }
