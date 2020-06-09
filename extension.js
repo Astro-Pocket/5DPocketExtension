@@ -159,3 +159,9 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
     });
   });
 });
+
+document.addEventListener('mouseleave', () => {
+  setTimeout( () => {
+    window.close()
+  }, 5000)
+})
