@@ -16,7 +16,8 @@
   "content_script":[
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "all_frames": true
     }
   ],
   "background":{
