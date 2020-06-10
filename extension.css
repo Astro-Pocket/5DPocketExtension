@@ -15,9 +15,6 @@ body {
 .title{
   display: inline;
 }
-.pocket {
-  transform: rotate(-15deg);
-}
 .account {
   margin-top: .5rem;
 }
