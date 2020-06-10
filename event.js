@@ -11,14 +11,13 @@ chrome.contextMenus.create({
 });
 
 function save() {
-  sendMessageToContentScript({ key: 'test', payload: 'Hi, this is a message from popup.js'}, (response) => {
+  sendMessageToContentScript({ key: 'test', payload: 'Hi, this is a message from popup.js'}, response => {
     console.log('this is a message from content script', response)
 })
 }
 
 function sendMessageToContentScript(message, callback) {
   chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-    console.log(tabs)
       chrome.tabs.sendMessage(tabs[0].id, message, (response) => {
           if (callback) {
               callback(response)
